@@ -2,9 +2,9 @@
 
 var conexion = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-conexion.on("RecibirMensaje", function ({ usuario, contenido }) {
+conexion.on("RecibirMensaje", function (mensaje) {
     var li = document.createElement("li");
-    li.textContent = usuario + "-" + contenido;
+    li.textContent = mensaje.usuario + "-" + mensaje.contenido;
     document.getElementById("lstMensajes").appendChild(li);
 })
 
@@ -21,7 +21,7 @@ document.getElementById("btnEnviar").addEventListener("click", function (event) 
     var usuario = document.getElementById("txtUsuario").value;
     var contenido = document.getElementById("txtMensaje").value;
 
-    conexion.invoke("EnviarMensaje", usuario, contenido )
+    conexion.invoke("EnviarMensaje", { usuario, contenido })
         .catch(function (error) {
             console.error(error);
         });
