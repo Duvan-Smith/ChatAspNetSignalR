@@ -10,7 +10,7 @@ conexion.on("RecibirMensaje", function (mensaje) {
 
 conexion.start().then(function () {
     var li = document.createElement("li");
-    li.textContent = "Inicio";
+    li.textContent = "Conectado";
     document.getElementById("lstMensajes").appendChild(li);
 }).catch(function (error) {
     console.error(error);

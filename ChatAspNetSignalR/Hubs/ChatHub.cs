@@ -10,4 +10,20 @@ public class ChatHub : Hub<IChat>
     {
         await Clients.All.RecibirMensaje(mensaje);
     }
+
+    public override async Task OnConnectedAsync()
+    {
+        await Clients.Client(Context.ConnectionId).RecibirMensaje(new Mensaje
+        {
+            Usuario = "Host",
+            Contenido = "Hola =D"
+        });
+
+        await base.OnConnectedAsync();
+    }
+
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        await base.OnDisconnectedAsync(exception);
+    }
 }
