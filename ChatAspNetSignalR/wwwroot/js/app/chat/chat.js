@@ -25,4 +25,6 @@ document.getElementById("btnEnviar").addEventListener("click", function (event) 
         .catch(function (error) {
             console.error(error);
         });
+
+    document.getElementById("txtMensaje").value = "";
 })
