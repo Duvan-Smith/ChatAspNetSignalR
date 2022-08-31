@@ -6,14 +6,17 @@ namespace ChatAspNetSignalR.Hubs;
 
 public class ChatHub : Hub<IChat>
 {
+    public static Dictionary<string, string> lstUsuarios { get; set; } = new Dictionary<string, string>();
+
     public async Task EnviarMensaje(Mensaje mensaje)
     {
         if (!string.IsNullOrEmpty(mensaje.Contenido))
         {
             await Clients.All.RecibirMensaje(mensaje);
         }
-        else if (!string.IsNullOrEmpty(mensaje.Contenido))
+        else if (!string.IsNullOrEmpty(mensaje.Usuario))
         {
+            lstUsuarios.Add(Context.ConnectionId, mensaje.Usuario);
             await Clients.AllExcept(Context.ConnectionId).RecibirMensaje(new Mensaje
             {
                 Usuario = mensaje.Usuario,
@@ -35,6 +38,11 @@ public class ChatHub : Hub<IChat>
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
+        await Clients.AllExcept(Context.ConnectionId).RecibirMensaje(new Mensaje
+        {
+            Usuario = "Host",
+            Contenido = $"{lstUsuarios[Context.ConnectionId]} salio del chat."
+        });
         await base.OnDisconnectedAsync(exception);
     }
 }
