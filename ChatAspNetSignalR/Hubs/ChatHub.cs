@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using ChatAspNetSignalR.Hubs.Interfaces;
+using ChatAspNetSignalR.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ChatAspNetSignalR.Hubs;
 
-public class ChatHub : Hub
+public class ChatHub : Hub<IChat>
 {
-    public async Task EnviarMensaje(string user, string mensaje)
+    public async Task EnviarMensaje(Mensaje mensaje)
     {
-        await Clients.All.SendAsync("RecibirMensaje", user, mensaje);
+        await Clients.All.RecibirMensaje(mensaje);
     }
 }
