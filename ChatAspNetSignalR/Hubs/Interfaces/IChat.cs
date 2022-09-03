@@ -6,4 +6,5 @@ public interface IChat
 {
     Task EnviarMensaje(Mensaje mensaje);
     Task RecibirMensaje(Mensaje mensaje);
+    Task Counter();
 }

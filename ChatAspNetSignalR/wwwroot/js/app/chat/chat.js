@@ -33,6 +33,19 @@ document
             });
 
           document.getElementById("txtMensaje").value = "";
+
+          conexion.stream("Counter").subscribe({
+            next: (item) => {
+              document.getElementById("lblDuracion").innerHTML = item;
+            },
+            complete: (item) => {
+              document.getElementById("lblDuracion").innerHTML =
+                "Se termino el tiempo";
+            },
+            error: (error) => {
+              console.log(error);
+            },
+          });
         })
         .catch(function (error) {
           console.error(error);

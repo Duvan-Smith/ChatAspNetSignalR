@@ -28,6 +28,15 @@ public class ChatHub : Hub<IChat>
         }
     }
 
+    public async IAsyncEnumerable<int> Counter()
+    {
+        for (int i = 0; i < 1000000; i++)
+        {
+            yield return i;
+            await Task.Delay(1000);
+        }
+    }
+
     public override async Task OnConnectedAsync()
     {
         await Clients.Client(Context.ConnectionId).RecibirMensaje(new Mensaje
